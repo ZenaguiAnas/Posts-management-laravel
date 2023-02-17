@@ -7,6 +7,13 @@
   <title>Document</title>
 </head>
 <body>
+
+  <ul class="navbar">
+    <li><a href="{{ route("home") }}">Home</a></li>
+    <li><a href="{{ route("about") }}">About</a></li>
+    <li><a href="{{ route("blog-post") }}">blog</a></li>
+  </ul>
+
   @yield('content')
 </body>
 </html>
