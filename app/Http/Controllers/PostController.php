@@ -47,8 +47,11 @@ class PostController extends Controller
         $post->active = false;
         // dd($title, 'content: ', $content);
         $post->save();
+        // $request->Session()->flash('status', 'post was created successfuly!');
+        
         // dd('OK');
-        return redirect()->route('posts.show', ['post' => $post->id]);
+        // return redirect()->route('posts.show', ['post' => $post->id]);
+        return redirect()->route('posts.index')->with('status', 'Category Delete Successfully');
     }
 
 }

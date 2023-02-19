@@ -8,6 +8,19 @@
 </head>
 <body>
 
+  @if (session()->has('status'))
+    <h3 style="color:green">
+      {{ session()->get('status') }}
+    </h3>
+      
+  @endif
+
+  {{-- @if(Session::has('success'))
+    <div class="alert alert-success">
+        {{Session::get('success')}}
+    </div>
+  @endif --}}
+
   <ul class="navbar">
     <li><a href="{{ route("home") }}">Home</a></li>
     <li><a href="{{ route("about") }}">About</a></li>
