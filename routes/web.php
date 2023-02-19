@@ -21,4 +21,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('/home', 'App\Http\Controllers\HomeController@home')->name("home");
 Route::get('/about', 'App\Http\Controllers\HomeController@about')->name("about");
 
-Route::resource('/posts', 'App\Http\Controllers\PostController')->only(['index', 'show']);
+Route::resource('/posts', 'App\Http\Controllers\PostController')->only(['index', 'show', 'create', 'store']);
