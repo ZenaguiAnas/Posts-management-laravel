@@ -40,6 +40,12 @@ class PostController extends Controller
         // ! here we recieve the data through the dependecy injection Request 
         // dd($request->all());
 
+        // * DATA VALIDATION BEFORE SENDING TO DB
+        $request->validate([
+            'title' => 'required|min:4|max:100', // or we can do 'title' => 'bail|required|min:4|max:100', this is means that if  the first condition is not verified so stopt without checking out others
+            'content' => 'required'
+        ]);
+
         $post = new Post();
         $post->title = $request->input('title');
         $post->content = $request->input('content');
