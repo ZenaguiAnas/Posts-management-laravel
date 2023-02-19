@@ -6,6 +6,7 @@ use App\Models\Post;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -36,10 +37,18 @@ class PostController extends Controller
     }
 
     public function store(Request $request){
+        // ! here we recieve the data through the dependecy injection Request 
         // dd($request->all());
-        $title = $request->input('title');
-        $content = $request->input('content');
-        dd($title, 'content: ', $content);
+
+        $post = new Post();
+        $post->title = $request->input('title');
+        $post->content = $request->input('content');
+        $post->slug = Str::slug($post->title, '-');
+        $post->active = false;
+        // dd($title, 'content: ', $content);
+        $post->save();
+        // dd('OK');
+        return redirect()->route('posts.show', ['post' => $post->id]);
     }
 
 }
