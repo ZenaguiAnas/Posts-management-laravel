@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePostRequest;
 use App\Models\Post;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -36,15 +37,15 @@ class PostController extends Controller
         return view('posts.create');
     }
 
-    public function store(Request $request){
+    public function store(StorePostRequest $request){
         // ! here we recieve the data through the dependecy injection Request 
         // dd($request->all());
 
         // * DATA VALIDATION BEFORE SENDING TO DB
-        $request->validate([
-            'title' => 'required|min:4|max:100', // or we can do 'title' => 'bail|required|min:4|max:100', this is means that if  the first condition is not verified so stopt without checking out others
-            'content' => 'required'
-        ]);
+        // $request->validate([
+        //     'title' => 'required|min:4|max:100', // or we can do 'title' => 'bail|required|min:4|max:100', this is means that if  the first condition is not verified so stopt without checking out others
+        //     'content' => 'required'
+        // ]);
 
         $post = new Post();
         $post->title = $request->input('title');
