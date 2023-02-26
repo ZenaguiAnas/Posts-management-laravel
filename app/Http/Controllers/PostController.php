@@ -45,15 +45,21 @@ class PostController extends Controller
         // $request->validate([
         //     'title' => 'required|min:4|max:100', // or we can do 'title' => 'bail|required|min:4|max:100', this is means that if  the first condition is not verified so stopt without checking out others
         //     'content' => 'required'
-        // ]);
+        // ]); 
 
-        $post = new Post();
-        $post->title = $request->input('title');
-        $post->content = $request->input('content');
-        $post->slug = Str::slug($post->title, '-');
-        $post->active = false;
-        // dd($title, 'content: ', $content);
-        $post->save();
+        $data = $request->only(['title', 'content']);
+        $data['slug'] = Str::slug($data['title'], '-');
+        $data['active'] = false;
+
+        $post = Post::create($data);
+
+        // $post = new Post();
+        // $post->title = $request->input('title');
+        // $post->content = $request->input('content');
+        // $post->slug = Str::slug($post->title, '-');
+        // $post->active = false;
+        // // dd($title, 'content: ', $content);
+        // $post->save();
         // $request->Session()->flash('status', 'post was created successfuly!');
         
         // dd('OK');
