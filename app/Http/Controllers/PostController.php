@@ -64,7 +64,20 @@ class PostController extends Controller
         
         // dd('OK');
         // return redirect()->route('posts.show', ['post' => $post->id]);
-        return redirect()->route('posts.index')->with('status', 'Category Delete Successfully');
+        return redirect()->route('posts.index')->with('status', 'Category created successfully!');
+    }
+
+    // Edit method to return the edit view
+    public function edit($id){
+        $post = Post::findOrFail($id);
+        return view('posts.edit', [
+            'post' => $post
+        ]);
+    }
+
+    // Update to update the data into the DB based on the edit view
+    public function update(){
+
     }
 
 }
