@@ -4,22 +4,23 @@
 
   <h1>List of posts</h1>
 
-  <ul>
+  <ul class="list-group">
     @foreach ($posts as $post)
-    <li>
+    <li class="list-group-item">
       <h2><a href="{{route('posts.show', ['post' => $post->id])}}">{{$post->title}}</a></h2>
       <p>{{$post->content}}</p>
       <em>{{$post->created_at}}</em>
-      <a href="{{ route('posts.edit', ['post' => $post->id]) }}">Edit</a>
+      <a class="btn btn-warning" href="{{ route('posts.edit', ['post' => $post->id]) }}">Edit</a>
 
-      <form method="POST" action="{{ route('posts.destroy', ['post' => $post->id]) }}">
+      <form style="display: inline" method="POST" action="{{ route('posts.destroy', ['post' => $post->id]) }}">
         @csrf
         @method('DELETE')
               
-        <button type="submit">Delete post</button>
+        <button class="btn btn-danger" type="submit">Delete post</button>
       </form>
       
     </li>  
+
     @endforeach
   </ul>
 
