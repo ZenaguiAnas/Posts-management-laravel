@@ -76,8 +76,15 @@ class PostController extends Controller
     }
 
     // Update to update the data into the DB based on the edit view
-    public function update(){
+    public function update(StorePostRequest $request, $id){
+        $post = Post::findOrFail($id);
+        $post->title = $request->input('title');
+        $post->content = $request->input('content');
+        $post->slug = Str::slug($request->input('content', '-'));
 
+        $post->save();
+
+        return redirect()->route('posts.index')->with('status', 'This post is updated successfuly!');
     }
 
 }
