@@ -87,4 +87,15 @@ class PostController extends Controller
         return redirect()->route('posts.index')->with('status', 'This post is updated successfuly!');
     }
 
+    public function destroy(Request $request, $id){
+        //? The first method for deleting an item
+        $post = Post::findOrFail($id);
+        $post->delete();
+
+        //? The second method for deleting an item
+        // Post::destroy($id);
+
+        return redirect()->route('posts.index')->with('status', 'This post is deleted successfuly!');
+    }
+
 }
