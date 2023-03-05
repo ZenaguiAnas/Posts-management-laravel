@@ -44,5 +44,22 @@ class PostTest extends TestCase
              ->assertSessionHas('status');
         $this->assertEquals(session('status'), 'Category created successfully!');
     }
+
+    public function testPostStoreFail(){
+        $data = [
+            "title" => "",
+            "content" => ""
+        ];
+
+        $this->post('/posts', $data)
+             ->assertStatus(302)
+             ->assertSessionHas('errors');
+
+        $messages = session('errors')->getMessages();
+        // dd($messages);  // for debugging
+
+        $this->assertEquals($messages['title'][0], 'The title field is required.');
+        $this->assertEquals($messages['content'][0], 'The content field is required.');
+    }
     
 }
