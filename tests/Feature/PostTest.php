@@ -61,5 +61,37 @@ class PostTest extends TestCase
         $this->assertEquals($messages['title'][0], 'The title field is required.');
         $this->assertEquals($messages['content'][0], 'The content field is required.');
     }
+
+    public function testPostUpdate(){
+        $post = new Post();
+
+        $post->title = "second Title to test";
+        $post->slug = Str::slug($post->title, '-');
+        $post->content = "new Content";
+        $post->active = true;
+
+        $post->save();
+
+        $this->assertDatabaseHas('posts', $post->toArray());
+
+        $data = [
+            "title" => "test our post updated",
+            "slug" => Str::slug("test our post updated", '-'),
+            "content" => "Store content",
+            "active" => false,
+        ];
+
+        $this->put("/posts/{$post->id}", $data)
+            ->assertStatus(302)
+            ->assertSessionHas('status');
+
+        $this->assertDatabaseHas('posts', [
+            'title' => $data['title']
+        ]);
+
+        $this->assertDatabaseMissing('posts', [
+            'title' => $post->title
+        ]);
+    }
     
 }
