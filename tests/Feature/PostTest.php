@@ -93,5 +93,24 @@ class PostTest extends TestCase
             'title' => $post->title
         ]);
     }
+
+    public function testPostDestroy(){
+        $post = new Post();
+
+        $post->title = "second Title to test";
+        $post->slug = Str::slug($post->title, '-');
+        $post->content = "new Content";
+        $post->active = true;
+
+        $post->save();
+
+        $this->assertDatabaseHas('posts', $post->toArray());
+
+        $this->delete("/posts/{$post->id}")
+            ->assertStatus(302)
+            ->assertSessionHas('status');
+
+        $this->assertDatabaseMissing('posts', $post->toArray());
+    }
     
 }
