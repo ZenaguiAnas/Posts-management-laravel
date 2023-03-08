@@ -8,6 +8,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+use App\Models\Comment;
 
 class PostController extends Controller
 {
@@ -17,9 +19,30 @@ class PostController extends Controller
     public function index()
     // : Response
     {
+
+
+        $posts = Post::withCount('comments')->get();
+
+        // DB::connection()->enableQueryLog();
+        
+        // $posts = Post::all();
+
+        // foreach($posts as $post){
+        //     foreach($post->comments() as $comment){
+
+        //     }
+        // }
+
+        // dd(DB::getQueryLog());
+
         // dd(Post::all());
+
+        // return view('posts.index', [
+        //     'posts' => Post::all()
+        // ]);
+
         return view('posts.index', [
-            'posts' => Post::all()
+            'posts' => $posts
         ]);
     }
  
