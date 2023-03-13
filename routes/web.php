@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,3 +29,7 @@ Route::get('/about', 'App\Http\Controllers\HomeController@about')->name("about")
 Route::resource('/posts', 'App\Http\Controllers\PostController');
       // ->only(['index', 'show', 'create', 'store', 'update', 'edit']);
       // ->except(['destroy']);
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

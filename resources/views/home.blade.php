@@ -1,8 +1,23 @@
-@extends('layout')
-@section('content')
-    
-<h1>Home page</h1>
-<h2>Learn Laravel 9!</h2>
-<p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, molestias quas explicabo sed illum in minima ipsa animi iste mollitia totam nisi obcaecati optio eligendi reiciendis, fugiat sequi, sapiente molestiae?</p>
+@extends('layouts.app')
 
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{ __('Dashboard') }}</div>
+
+                <div class="card-body">
+                    @if (session('status'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+
+                    {{ __('You are logged in!') }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
