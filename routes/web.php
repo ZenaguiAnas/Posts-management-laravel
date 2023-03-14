@@ -23,7 +23,7 @@ Route::get('/', function(){
 });
 
 // Route::get('/posts/{id?}/{author?}', 'App\Http\Controllers\HomeController@blog')->name("blog-post");
-Route::get('/home', 'App\Http\Controllers\HomeController@home')->name("home");
+// Route::get('/home', 'App\Http\Controllers\HomeController@home')->name("home");
 Route::get('/about', 'App\Http\Controllers\HomeController@about')->name("about");
 
 Route::resource('/posts', 'App\Http\Controllers\PostController');
@@ -32,4 +32,5 @@ Route::resource('/posts', 'App\Http\Controllers\PostController');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard');
