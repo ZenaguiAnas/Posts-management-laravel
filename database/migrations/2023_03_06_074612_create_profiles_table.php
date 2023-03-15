@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('profiles', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('author_id')->unique();
-            $table->foreign('author_id')->references('id')->on('authors');
+            // $table->unsignedBigInteger('author_id')->unique();
+            // $table->foreign('author_id')->references('id')->on('authors');
             $table->timestamps();
+            $table->foreignId('author_id')->constrained();
         });
     }
 
