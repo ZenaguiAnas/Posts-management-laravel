@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
 use Illuminate\Database\Seeder;
-use App\Models\User;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,11 +13,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(10)->create();
+
+        if($this->command->confirm("Do you want to refresh the database ?", false)){
+            $this->command->call("migrate:refresh");
+            $this->command->info("The database was refreshed successfuly !");
+        }
+
+        $this->call([UsersTableSeeder::class, PostsTableSeeder::class, CommentsTableSeeder::class]);
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
     }
 }

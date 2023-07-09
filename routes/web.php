@@ -27,6 +27,7 @@ Route::get('/', function(){
 Route::get('/about', 'App\Http\Controllers\HomeController@about')->name("about");
 
 Route::resource('/posts', 'App\Http\Controllers\PostController');
+      // ->middleware("auth");
       // ->only(['index', 'show', 'create', 'store', 'update', 'edit']);
       // ->except(['destroy']);
 
