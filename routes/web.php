@@ -26,6 +26,11 @@ Route::get('/', function(){
 // Route::get('/home', 'App\Http\Controllers\HomeController@home')->name("home");
 Route::get('/about', 'App\Http\Controllers\HomeController@about')->name("about");
 
+Route::get('/posts/archive', 'App\Http\Controllers\PostController@archive');
+Route::get('/posts/all', 'App\Http\Controllers\PostController@all');
+Route::patch('/posts/{id}/restore', 'App\Http\Controllers\PostController@restore');
+Route::delete('/posts/{id}/forcedelete', 'App\Http\Controllers\PostController@forcedelete');
+
 Route::resource('/posts', 'App\Http\Controllers\PostController');
       // ->middleware("auth");
       // ->only(['index', 'show', 'create', 'store', 'update', 'edit']);

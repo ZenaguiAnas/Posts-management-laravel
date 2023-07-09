@@ -48,7 +48,25 @@ class PostController extends Controller
         // ]);
 
         return view('posts.index', [
-            'posts' => $posts
+            'posts' => $posts, 'tab' => 'list'
+        ]);
+    }
+
+
+    public function archive()
+    {
+
+
+        return view('posts.index', [
+            'posts' => Post::onlyTrashed()->withCount('comments')->orderBy('updated_at', 'desc')->get(), 'tab' => 'archive'
+        ]);
+    }
+
+    public function all()
+    {
+
+        return view('posts.index', [
+            'posts' => Post::withTrashed()->withCount('comments')->get(), 'tab' => 'all'
         ]);
     }
  
@@ -125,6 +143,28 @@ class PostController extends Controller
         // Post::destroy($id);
 
         return redirect()->route('posts.index')->with('status', 'This post is deleted successfuly!');
+    }
+
+    public function restore($id){
+        // dd($id);
+        
+        // $post = Post::find($id); => doesn't work with trashed posts
+        $post = Post::onlyTrashed()->where('id', $id)->first();
+        $post->restore();
+
+
+        return redirect()->back();
+    }
+
+    public function forcedelete($id){
+        // dd($id);
+        
+        // $post = Post::find($id); => doesn't work with trashed posts
+        $post = Post::onlyTrashed()->where('id', $id)->first();
+
+        $post->forceDelete();
+
+        return redirect()->back();
     }
 
 }
