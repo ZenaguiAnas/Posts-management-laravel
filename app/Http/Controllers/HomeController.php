@@ -31,7 +31,8 @@ class HomeController extends Controller
     public function dashboard()
     {
         // dd(Auth::id());
-        // dd(Auth::user());
+        // dd(Auth::user()->email);
+        // dd(Auth::check());
         return view('dashboard');
     }
 }
