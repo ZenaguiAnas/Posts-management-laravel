@@ -35,6 +35,10 @@
         </div>  
       @endif
 
+      <p class="text-muted">
+        {{ $post->updated_at->diffForHumans() }}, by {{ $post->user->name }}
+      </p>
+
       <a class="btn btn-warning" href="{{ route('posts.edit', ['post' => $post->id]) }}">Edit</a>
 
       @if(!$post->deleted_at)
