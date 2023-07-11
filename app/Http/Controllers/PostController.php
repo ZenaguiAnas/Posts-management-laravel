@@ -10,6 +10,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use App\Models\Comment;
+use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
@@ -125,6 +126,12 @@ class PostController extends Controller
     // Update to update the data into the DB based on the edit view
     public function update(StorePostRequest $request, $id){
         $post = Post::findOrFail($id);
+
+
+        if(Gate::denies("post.update", $post)){
+            abort(403, "You are unauthorized !");
+        }
+
         $post->title = $request->input('title');
         $post->content = $request->input('content');
         $post->slug = Str::slug($request->input('content', '-'));
@@ -137,6 +144,7 @@ class PostController extends Controller
     public function destroy(Request $request, $id){
         //? The first method for deleting an item
         $post = Post::findOrFail($id);
+
         $post->delete();
 
         //? The second method for deleting an item
