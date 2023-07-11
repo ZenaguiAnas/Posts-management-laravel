@@ -118,6 +118,14 @@ class PostController extends Controller
     // Edit method to return the edit view
     public function edit($id){
         $post = Post::findOrFail($id);
+
+        // if(Gate::denies("post.update", $post)){
+        //     abort(403, "You are unauthorized !");
+        // }
+
+        // *
+        $this->authorize("post.update", $post);
+        
         return view('posts.edit', [
             'post' => $post
         ]);
@@ -128,9 +136,13 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
 
 
-        if(Gate::denies("post.update", $post)){
-            abort(403, "You are unauthorized !");
-        }
+        // if(Gate::denies("post.update", $post)){
+        //     abort(403, "You are unauthorized !");
+        // }
+
+        // *
+        $this->authorize("post.update", $post);
+
 
         $post->title = $request->input('title');
         $post->content = $request->input('content');
@@ -144,6 +156,8 @@ class PostController extends Controller
     public function destroy(Request $request, $id){
         //? The first method for deleting an item
         $post = Post::findOrFail($id);
+
+        $this->authorize("post.delete", $post);
 
         $post->delete();
 
