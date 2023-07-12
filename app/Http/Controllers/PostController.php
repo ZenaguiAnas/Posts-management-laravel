@@ -124,7 +124,7 @@ class PostController extends Controller
         // }
 
         // *
-        $this->authorize("post.update", $post);
+        $this->authorize("update", $post);
         
         return view('posts.edit', [
             'post' => $post
@@ -141,7 +141,7 @@ class PostController extends Controller
         // }
 
         // *
-        $this->authorize("post.update", $post);
+        $this->authorize("update", $post);
 
 
         $post->title = $request->input('title');
@@ -157,7 +157,7 @@ class PostController extends Controller
         //? The first method for deleting an item
         $post = Post::findOrFail($id);
 
-        $this->authorize("post.delete", $post);
+        $this->authorize("delete", $post);
 
         $post->delete();
 

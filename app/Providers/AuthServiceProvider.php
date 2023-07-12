@@ -16,7 +16,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        'App\Models\Post' => 'App\Policies\PostPolicy',
     ];
 
     /**
@@ -34,11 +34,11 @@ class AuthServiceProvider extends ServiceProvider
         //     return $user->id === $post->user_id;
         // });
 
-        // Gate::before(function($user, $ability){
-        //     if($user->is_admin && in_array($ability, ["post.update"])) {
-        //         return true;
-        //     }
-        // });
+        Gate::before(function($user, $ability){
+            if($user->is_admin && in_array($ability, ["update", "restore"])) {
+                return true;
+            }
+        });
 
         // ! v2 policy
         // Gate::define("post.update", [PostPolicy::class, "update"]);
@@ -46,7 +46,9 @@ class AuthServiceProvider extends ServiceProvider
 
         // ! v3 policy
         // Gate::resource("post", [PostPolicy::class]);
-        Gate::resource("post", 'App\Policies\PostPolicy');
+        // Gate::resource("post", 'App\Policies\PostPolicy');
+
+        // ! V4 policy is to uncoment the $policies variable without declaring the Gate
 
     }
 }
