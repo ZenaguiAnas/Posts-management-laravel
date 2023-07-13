@@ -10,6 +10,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use App\Models\Comment;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
@@ -30,8 +31,14 @@ class PostController extends Controller
 
         // $posts = Post::withCount('comments')->get();
 
+
         // ! v2 : To reduce the number of the queries and to perform the application
-        $posts = Post::withCount('comments')->with('user')->get();
+        // $posts = Post::withCount('comments')->with('user')->get();
+
+        // ! v3 : Using a cache
+        $posts = Cache::remember("posts", now()->addSeconds(10), function(){
+            return Post::withCount('comments')->with('user')->get();
+        });
 
 
         // DB::connection()->enableQueryLog();
@@ -80,8 +87,13 @@ class PostController extends Controller
     // : Response
     {
         // dd(Post::find($id));
+        
+        $post = Cache::remember("post-show-{$id}", 60, function() use($id){
+            return Post::find($id);
+        });
+
         return view('posts.show', [
-            'post' => Post::find($id)
+            'post' => $post
         ]);
     }
 
