@@ -37,7 +37,7 @@ class PostController extends Controller
 
         // ! v3 : Using a cache
         $posts = Cache::remember("posts", now()->addSeconds(10), function(){
-            return Post::withCount('comments')->with('user')->get();
+            return Post::withCount('comments')->with(['user', 'tags'])->get();
         });
 
 
@@ -89,7 +89,7 @@ class PostController extends Controller
         // dd(Post::find($id));
         
         $post = Cache::remember("post-show-{$id}", 60, function() use($id){
-            return Post::find($id);
+            return Post::with('tags')->find($id);
         });
 
         return view('posts.show', [

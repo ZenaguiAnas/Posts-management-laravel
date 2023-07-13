@@ -35,10 +35,14 @@ class Post extends Model
 
         static::restoring(function(Post $post){
             $post->comments()->restore();
-        });
+    });
 
         static::updating(function(Post $post){
             Cache::forget("post-show-{$post->id}");
         });
+    }
+
+    public function tags(){
+        return $this->belongsToMany('App\Models\Tag')->withTimestamps();
     }
 }

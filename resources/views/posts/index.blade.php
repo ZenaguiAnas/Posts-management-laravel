@@ -25,6 +25,10 @@
       <p>{{$post->content}}</p>
       <em>{{$post->created_at}}</em>
 
+      <div>
+      <x-tags :tags="$post->tags"></x-tags>
+      </div>
+
       @if ($post->comments_count)
         <div>
         <span class="btn btn-success">{{ $post->comments_count }}</span>
