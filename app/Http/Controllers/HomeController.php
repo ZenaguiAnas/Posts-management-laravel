@@ -26,6 +26,10 @@ class HomeController extends Controller
     {
         return view('home');
     }
+
+    public function secret(){
+        return view('secret');
+    }
     
     
     public function dashboard()

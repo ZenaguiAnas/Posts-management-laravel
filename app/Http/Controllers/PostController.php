@@ -28,7 +28,11 @@ class PostController extends Controller
     {
 
 
-        $posts = Post::withCount('comments')->get();
+        // $posts = Post::withCount('comments')->get();
+
+        // ! v2 : To reduce the number of the queries and to perform the application
+        $posts = Post::withCount('comments')->with('user')->get();
+
 
         // DB::connection()->enableQueryLog();
         
@@ -59,7 +63,7 @@ class PostController extends Controller
 
 
         return view('posts.index', [
-            'posts' => Post::onlyTrashed()->withCount('comments')->orderBy('updated_at', 'desc')->get(), 'tab' => 'archive'
+            'posts' => Post::onlyTrashed()->withCount('comments')->get(), 'tab' => 'archive'
         ]);
     }
 
@@ -95,7 +99,13 @@ class PostController extends Controller
         //     'content' => 'required'
         // ]); 
 
-        $data = $request->only(['title', 'content']);
+        // dd($request->user()->id);
+
+
+
+        // $data = $request->only(['title', 'content']);
+        $data = $request->validated();
+        $data['user_id'] = $request->user()->id;
         $data['slug'] = Str::slug($data['title'], '-');
         $data['active'] = false;
 

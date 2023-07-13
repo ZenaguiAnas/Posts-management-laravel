@@ -50,5 +50,8 @@ class AuthServiceProvider extends ServiceProvider
 
         // ! V4 policy is to uncoment the $policies variable without declaring the Gate
 
+        Gate::define('secret.page', function($user){
+            return $user->is_admin;
+        });
     }
 }

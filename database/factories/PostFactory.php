@@ -30,6 +30,7 @@ class PostFactory extends Factory
             'slug' => Str::slug($title, '-'),
             'content' => fake()->text,
             'active' => fake()->boolean,
+            'updated_at' => fake()->dateTimeBetween('-3 years')
         ];
     }
 }

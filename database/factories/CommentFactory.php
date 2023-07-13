@@ -18,6 +18,7 @@ class CommentFactory extends Factory
     {
         return [
             'content' => fake()->text,
+            'updated_at' => fake()->dateTimeBetween('-3 months')
         ];
     }
 }
