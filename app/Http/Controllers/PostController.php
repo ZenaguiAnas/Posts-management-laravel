@@ -10,6 +10,8 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use App\Models\Comment;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
@@ -27,7 +29,17 @@ class PostController extends Controller
     {
 
 
-        $posts = Post::withCount('comments')->get();
+        // $posts = Post::withCount('comments')->get();
+
+
+        // ! v2 : To reduce the number of the queries and to perform the application
+        // $posts = Post::withCount('comments')->with('user')->get();
+
+        // ! v3 : Using a cache
+        $posts = Cache::remember("posts", now()->addSeconds(10), function(){
+            return Post::withCount('comments')->with('user')->get();
+        });
+
 
         // DB::connection()->enableQueryLog();
         
@@ -58,7 +70,7 @@ class PostController extends Controller
 
 
         return view('posts.index', [
-            'posts' => Post::onlyTrashed()->withCount('comments')->orderBy('updated_at', 'desc')->get(), 'tab' => 'archive'
+            'posts' => Post::onlyTrashed()->withCount('comments')->get(), 'tab' => 'archive'
         ]);
     }
 
@@ -75,8 +87,13 @@ class PostController extends Controller
     // : Response
     {
         // dd(Post::find($id));
+        
+        $post = Cache::remember("post-show-{$id}", 60, function() use($id){
+            return Post::find($id);
+        });
+
         return view('posts.show', [
-            'post' => Post::find($id)
+            'post' => $post
         ]);
     }
 
@@ -94,7 +111,13 @@ class PostController extends Controller
         //     'content' => 'required'
         // ]); 
 
-        $data = $request->only(['title', 'content']);
+        // dd($request->user()->id);
+
+
+
+        // $data = $request->only(['title', 'content']);
+        $data = $request->validated();
+        $data['user_id'] = $request->user()->id;
         $data['slug'] = Str::slug($data['title'], '-');
         $data['active'] = false;
 
@@ -117,6 +140,14 @@ class PostController extends Controller
     // Edit method to return the edit view
     public function edit($id){
         $post = Post::findOrFail($id);
+
+        // if(Gate::denies("post.update", $post)){
+        //     abort(403, "You are unauthorized !");
+        // }
+
+        // *
+        $this->authorize("update", $post);
+        
         return view('posts.edit', [
             'post' => $post
         ]);
@@ -125,6 +156,16 @@ class PostController extends Controller
     // Update to update the data into the DB based on the edit view
     public function update(StorePostRequest $request, $id){
         $post = Post::findOrFail($id);
+
+
+        // if(Gate::denies("post.update", $post)){
+        //     abort(403, "You are unauthorized !");
+        // }
+
+        // *
+        $this->authorize("update", $post);
+
+
         $post->title = $request->input('title');
         $post->content = $request->input('content');
         $post->slug = Str::slug($request->input('content', '-'));
@@ -137,6 +178,9 @@ class PostController extends Controller
     public function destroy(Request $request, $id){
         //? The first method for deleting an item
         $post = Post::findOrFail($id);
+
+        $this->authorize("delete", $post);
+
         $post->delete();
 
         //? The second method for deleting an item
