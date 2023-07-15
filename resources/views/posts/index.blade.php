@@ -25,6 +25,9 @@
       <p>{{$post->content}}</p>
       <em>{{$post->created_at}}</em>
 
+
+      @include('comments.form')
+
       <div>
       <x-tags :tags="$post->tags"></x-tags>
       </div>

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Scopes\LatestScope;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Cache;
 
 class Post extends Model
@@ -23,6 +24,10 @@ class Post extends Model
     public function user(){
         return $this->belongsTo(User::class);
     } 
+
+    // public function scopeMostCommented(Builder $query){
+    //     return $query->withCount('comments')->orderBy('comments_count'); 
+    // }
 
     public static function boot(){
         parent::boot();
