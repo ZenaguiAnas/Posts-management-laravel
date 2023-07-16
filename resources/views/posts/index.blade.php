@@ -26,7 +26,7 @@
       <em>{{$post->created_at}}</em>
 
 
-      @include('comments.form')
+      {{-- @include('comments.form') --}}
 
       <div>
       <x-tags :tags="$post->tags"></x-tags>

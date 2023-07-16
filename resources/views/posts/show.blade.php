@@ -17,6 +17,10 @@
 
 <h4>Comments</h4>
 
+@include('comments.form', ['id' => $post->id])
+
+<hr>
+
 @forelse($post->comments as $comment)
 
 <p>

@@ -6,6 +6,7 @@ use App\Scopes\LatestScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 
 class Comment extends Model
 {
@@ -14,7 +15,7 @@ class Comment extends Model
 
     use SoftDeletes;
 
-    protected $fillable = ['content', 'post_id', 'user_id'];
+    protected $fillable = ['content', 'user_id'];
 
     public function post(){
         return $this->belongsTo('App\Models\Post');
@@ -27,6 +28,10 @@ class Comment extends Model
 
     public static function boot(){
         parent::boot();
+
+        static::updating(function(Comment $comment){
+            Cache::forget("post-show-{$comment->post->id}");
+        });
 
         static::addGlobalScope(new LatestScope);
     }

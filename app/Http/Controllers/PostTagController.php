@@ -13,7 +13,7 @@ class PostTagController extends Controller
         $posts = $tag->pivot;
 
         return view('posts.index', [
-            'posts' => $tag->posts, 'tab' => 'list'
+            'posts' => $tag->posts()->withCount('comments')->with(['user', 'tags'])->get(), 'tab' => 'list'
         ]);
     }
 }
