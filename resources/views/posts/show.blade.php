@@ -4,6 +4,9 @@
 
 
 <h1>{{$post->title}}</h1>
+
+<img src="{{Storage::url($post->image->path ?? null)}}" class="img-fluid rounded" alt="">
+
 <p>{{$post->content}}</p>
 <em>{{$post->created_at->diffForHumans()}}</em>
 

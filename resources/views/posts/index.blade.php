@@ -20,6 +20,13 @@
 
   <ul class="list-group">
     @foreach ($posts as $post)
+
+    {{-- @if($post->image)
+    <img src="{{$post->image->url()}}" class="mt-3 img-fluid rounded" alt="">
+    @endif --}}
+
+    <img src="{{Storage::url($post->image->path ?? null)}}" class="img-fluid rounded" alt="">
+
     <li class="list-group-item">
       <h2><a href="{{route('posts.show', ['post' => $post->id])}}">{{$post->title}}</a></h2>
       <p>{{$post->content}}</p>
@@ -40,7 +47,7 @@
         <div>
           <span class="btn btn-dark">No comments yet !</span>
         </div>  
-      @endif
+      @endif  
 
       <p class="text-muted">
         {{ $post->updated_at->diffForHumans() }}, by {{ $post->user->name }}

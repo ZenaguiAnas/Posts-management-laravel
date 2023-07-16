@@ -10,8 +10,10 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use App\Models\Comment;
+use App\Models\Image;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -37,7 +39,7 @@ class PostController extends Controller
 
         // ! v3 : Using a cache
         $posts = Cache::remember("posts", now()->addSeconds(10), function(){
-            return Post::withCount('comments')->with(['user', 'tags'])->get();
+            return Post::postWithUserCommentsTags()->get();
         });
 
 
@@ -113,7 +115,9 @@ class PostController extends Controller
 
         // dd($request->user()->id);
 
-
+        // dump($request->hasFile('picture'));
+        
+        // die(); // Just to stope the script and prevent it to continue 
 
         // $data = $request->only(['title', 'content']);
         $data = $request->validated();
@@ -122,6 +126,14 @@ class PostController extends Controller
         $data['active'] = false;
 
         $post = Post::create($data);
+
+        // Upload picture for current post
+        if($request->hasFile('picture')) {
+            $path = $request->file('picture')->store('posts');
+
+            $image = new Image(['path' => $path]);
+            $post->image()->save($image);
+        }
 
         // $post = new Post();
         // $post->title = $request->input('title');
@@ -165,6 +177,21 @@ class PostController extends Controller
         // *
         $this->authorize("update", $post);
 
+        if($request->hasFile('picture')) {
+
+            $path = $request->file('picture')->store('posts');
+
+            if($post->image){
+                Storage::delete($post->image->path);
+                $post->image->path = $path;
+                $post->image->save();
+            } else {
+                $post->image->save(Image::create(['path' => $path]));
+            }
+
+            $image = new Image(['path' => $path]);
+            $post->image()->save($image);
+        }
 
         $post->title = $request->input('title');
         $post->content = $request->input('content');

@@ -23,7 +23,8 @@ class StorePostRequest extends FormRequest
     {
         return [
             'title' => 'required|min:4|max:100', // or we can do 'title' => 'bail|required|min:4|max:100', this is means that if  the first condition is not verified so stopt without checking out others
-            'content' => 'required'
+            'content' => 'required',
+            'picture' => 'image|mimes:jpeg,jpg,png,gif,svg|max:1024|dimensions:min_height=500'
         ];
     }
 }
