@@ -32,6 +32,9 @@ Route::get('/posts/all', 'App\Http\Controllers\PostController@all');
 Route::patch('/posts/{id}/restore', 'App\Http\Controllers\PostController@restore');
 Route::delete('/posts/{id}/forcedelete', 'App\Http\Controllers\PostController@forcedelete');
 
+Route::get('/posts/tag/{id}', 'App\Http\Controllers\PostTagController@index')->name('posts.tag.index');
+
+Route::resource('posts.comments', 'App\Http\Controllers\PostCommentController')->only(['store']);
 Route::resource('/posts', 'App\Http\Controllers\PostController');
       // ->middleware("auth");
       // ->only(['index', 'show', 'create', 'store', 'update', 'edit']);
