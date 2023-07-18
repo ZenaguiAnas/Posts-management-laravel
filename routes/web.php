@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+// use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +24,7 @@ Route::get('/', function(){
       return view('welcome');
 });
 
+
 // Route::get('/posts/{id?}/{author?}', 'App\Http\Controllers\HomeController@blog')->name("blog-post");
 // Route::get('/home', 'App\Http\Controllers\HomeController@home')->name("home");
 Route::get('/about', 'App\Http\Controllers\HomeController@about')->name("about");
@@ -39,6 +42,9 @@ Route::resource('/posts', 'App\Http\Controllers\PostController');
       // ->middleware("auth");
       // ->only(['index', 'show', 'create', 'store', 'update', 'edit']);
       // ->except(['destroy']);
+
+Route::resource('users', UserController::class)->only(['show', 'edit', 'update']);
+
 
 Auth::routes();
 
