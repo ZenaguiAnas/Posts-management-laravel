@@ -50,7 +50,7 @@
       @endif  
 
       <p class="text-muted">
-        {{ $post->updated_at->diffForHumans() }}, by {{ $post->user->name }}
+        {{ $post->updated_at->diffForHumans() }}, by <a href="{{route('users.show', ['user' => $post->user->id])}}">  {{ $post->user->name }} </a>
       </p>
 
       @auth

@@ -44,17 +44,21 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user): Response
+    public function show(User $user)
     {
-        dd($user);
+        // dd($user);
+        return view('users.show', ['user' => $user]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user): Response
+    public function edit(User $user)
     {
-        dd($user);
+        // dd($user);
+
+        return view('users.edit', ['user' => $user]);
+
     }
 
     /**
@@ -62,7 +66,6 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user): RedirectResponse
     {
-        //
     }
 
     /**
