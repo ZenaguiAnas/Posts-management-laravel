@@ -18,7 +18,7 @@ class Post extends Model
     protected $fillable = ['title', 'content', 'slug', 'active', 'user_id'];
 
     public function comments(){
-        return $this->hasMany('App\Models\Comment');
+        return $this->morphMany('App\Models\Comment', 'commentable');
     }
 
     // public function image(){

@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateUser;
+use App\Models\Image;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -64,8 +67,26 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user): RedirectResponse
+    public function update(UpdateUser $request, User $user): RedirectResponse
     {
+        if($request->hasFile('avatar')) {
+
+            $path = $request->file('avatar')->store('users');
+
+            if($user->image){
+                Storage::delete($user->image->path);
+                $user->image->path = $path;
+                $user->image->save();
+            } else {
+                $user->image()->save(Image::make(['path' => $path]));
+            }
+
+            // $image = new Image(['path' => $path]);
+            // $user->image()->save($image);
+
+
+            return redirect()->back()->with('status', 'This post is updated successfuly!');
+        }
     }
 
     /**
