@@ -21,8 +21,12 @@ class Post extends Model
         return $this->hasMany('App\Models\Comment');
     }
 
+    // public function image(){
+    //     return $this->hasOne(Image::class);
+    // }
+    
     public function image(){
-        return $this->hasOne(Image::class);
+        return $this->morphOne('App\Models\Image', 'imageable');
     }
 
     public function user(){
