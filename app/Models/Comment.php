@@ -26,11 +26,16 @@ class Comment extends Model
     }
 
 
+    public function commentable(){
+        return $this->morphTo();
+    }
+
     public static function boot(){
         parent::boot();
 
         static::updating(function(Comment $comment){
-            Cache::forget("post-show-{$comment->post->id}");
+            // Cache::forget("post-show-{$comment->post->id}");
+            Cache::forget("post-show-{$comment->commentable->id}");
         });
 
         static::addGlobalScope(new LatestScope);

@@ -20,7 +20,9 @@
 
 <h4>Comments</h4>
 
-@include('comments.form', ['id' => $post->id])
+{{-- @include('comments.form', ['id' => $post->id]) --}}
+
+<x-comment-form :action="route('posts.comments.store', ['post' => $post->id])"></x-comment-form>
 
 <hr>
 
