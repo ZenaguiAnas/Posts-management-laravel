@@ -33,6 +33,11 @@ class Post extends Model
         return $this->belongsTo(User::class);
     } 
 
+    public function tags(){
+        // return $this->belongsToMany('App\Models\Tag')->withTimestamps();
+        return $this->morphToMany('App\Models\Tag', 'taggable')->withTimestamps();
+    }
+
     // public function scopeMostCommented(Builder $query){
     //     return $query->withCount('comments')->orderBy('comments_count'); 
     // }
@@ -59,7 +64,5 @@ class Post extends Model
         });
     }
 
-    public function tags(){
-        return $this->belongsToMany('App\Models\Tag')->withTimestamps();
-    }
+    
 }
