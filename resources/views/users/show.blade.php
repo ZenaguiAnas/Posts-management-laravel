@@ -12,6 +12,22 @@
     </div>
     <div class="col-md-8">
       <h3>{{$user->name}}</h3>
+      <x-comment-form :action="route('users.comments.store', ['user' => $user->id])"></x-comment-form>
+
+      <hr>
+
+      @forelse($user->comments as $comment)
+
+      <p>
+        {{$comment->content}}
+      </p>
+      <p class="text-muted">
+        {{-- <x-updated :date="$comment->created_at" :name="$comment->user->name"></x-updated> --}}
+        added {{$comment->updated_at->diffForHumans()}}, by {{$comment->user->name}}
+      </p>
+      @empty
+      <p>No comments yet!</p>
+      @endforelse
     </div>
   </div>
 </form>
