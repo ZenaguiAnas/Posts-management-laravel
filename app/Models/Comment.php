@@ -30,6 +30,10 @@ class Comment extends Model
         return $this->morphTo();
     }
 
+    public function tags(){
+        return $this->morphToMany('App\Models\Tag', 'taggable')->withTimestamps();
+    }
+
     public static function boot(){
         parent::boot();
 

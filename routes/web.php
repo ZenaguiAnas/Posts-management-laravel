@@ -42,7 +42,7 @@ Route::delete('/posts/{id}/forcedelete', [PostController::class, 'forcedelete'])
 
 Route::get('/posts/tag/{id}', [PostTagController::class, 'index'])->name('posts.tag.index');
 
-Route::resource('posts.comments', PostCommentController::class)->only(['store']);
+Route::resource('posts.comments', PostCommentController::class)->only(['store', 'show']);
 Route::resource('users.comments', UserCommentController::class)->only(['store']);
 
 Route::resource('/posts', PostController::class);
